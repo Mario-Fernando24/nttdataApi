@@ -53,7 +53,7 @@ productsRoutes(app,upload);
 
 //********************************************** */
 
-server.listen(3000,'192.168.1.2' || 'localhost', function(){
+server.listen(3000,'192.168.1.4' || 'localhost', function(){
     console.log('http://localhost'+port+ ' iniciada...');
     
 }); 
