@@ -13,6 +13,7 @@ const passport = require('passport');
 const usersrRoutes = require('./routes/userRoutes');
 const categoriesRoutes = require('./routes/categoriesRoutes');
 const productsRoutes = require('./routes/productsRoutes');
+const addressRoutes = require('./routes/addressRoutes');
 
 //**************************************** */
 
@@ -50,6 +51,7 @@ const upload = multer({
 usersrRoutes(app,upload);
 categoriesRoutes(app);
 productsRoutes(app,upload);
+addressRoutes(app);
 
 //********************************************** */
 
