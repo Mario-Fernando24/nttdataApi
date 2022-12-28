@@ -11,8 +11,6 @@ Address.getAllAddress = (id_address_parametro,result)=>{
                     A.nombre_barrio,
                     A.lat,
                     A.lng,
-                    A.create_at,
-                    A.update_at,
                     CONVERT(A.id_users, char) AS id_users
                 FROM 
                   address AS A 

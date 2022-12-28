@@ -14,6 +14,7 @@ const usersrRoutes = require('./routes/userRoutes');
 const categoriesRoutes = require('./routes/categoriesRoutes');
 const productsRoutes = require('./routes/productsRoutes');
 const addressRoutes = require('./routes/addressRoutes');
+const ordersRoutes = require('./routes/ordersRoutes');
 
 //**************************************** */
 
@@ -52,10 +53,11 @@ usersrRoutes(app,upload);
 categoriesRoutes(app);
 productsRoutes(app,upload);
 addressRoutes(app);
+ordersRoutes(app);
 
 //********************************************** */
 
-server.listen(3000,'192.168.1.4' || 'localhost', function(){
+server.listen(3000,'192.168.101.8' || 'localhost', function(){
     console.log('http://localhost'+port+ ' iniciada...');
     
 }); 

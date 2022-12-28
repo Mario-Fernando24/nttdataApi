@@ -47,6 +47,7 @@ module.exports ={
     },
 
 
+
     getAllCategory(req, res){
        
         Category.getAllCategory((err, data)=>{

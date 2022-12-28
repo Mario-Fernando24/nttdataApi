@@ -4,7 +4,13 @@ const jwt = require('jsonwebtoken');
 module.exports ={
 
     getAddress(req, res){
-        const id_address_parametro=req.params.id_user;
+        const id_address_parametro=69;
+
+        console.log("=================================");
+        console.log(id_address_parametro);
+        console.log("=================================");
+
+
 
          Address.getAllAddress(id_address_parametro,(err, data)=>{
              if(err){
@@ -21,6 +27,7 @@ module.exports ={
 
     create(req, res){
         const address = req.body;
+
         
         Address.create(address, (err, id_address)=>{
 
