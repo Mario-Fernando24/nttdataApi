@@ -14,11 +14,13 @@ Order.findByStatus=(status,result)=>{
       O.statu,
       O.timetamp,
       A.direccion,
+      O.lat,
+      O.lng,
     
     JSON_OBJECT(
              'id', CONVERT(A.id, CHAR),
-             'address', A.direccion,
-             'barrio', A.nombre_barrio,
+             'direccion', A.direccion,
+             'nombreBarrio', A.nombre_barrio,
              'lat', A.lat,
              'lng', A.lng
          
@@ -79,8 +81,8 @@ Order.findByStatus=(status,result)=>{
 
 //crear pedido
 Order.create=(order, result)=>{
-
    
+
     const sql = `
     INSERT INTO
     orders(
@@ -93,11 +95,10 @@ Order.create=(order, result)=>{
         )
     VALUES(?, ?, ?, ?, ?, ?)
 `;
-
 db.query(
     sql,
-    [order.idClient,
-     order.idDireccion,
+    [order.id_client,
+     order.id_direccion,
      'PAGADO', //1: pagado, 2: despachado,  3: en camino 4: entregado
      Date.now(),
      new Date(),

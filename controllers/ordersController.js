@@ -29,7 +29,6 @@ module.exports ={
             }
 
         
-
             return res.status(201).json(data);
 
             
@@ -43,7 +42,6 @@ module.exports ={
 
         const orden = req.body;
 
-    
             Order.create(orden, async (err, id_orden)=>{
 
                         if(err){
