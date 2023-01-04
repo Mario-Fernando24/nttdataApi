@@ -260,7 +260,25 @@ async updateProfileUsersSinImagenes(req, res) {
          }
        
         }
-    )}
+    )},
+
+
+     findListarDomiciliario(req, res){
+          
+        User.findListarDomiciliario((err, data)=>{
+            
+            if (err) {
+                return res.status(501).json({
+                    success: false,
+                    message: 'Hubo un error al momento de listar los domiciliario',
+                    error: err
+                });
+            }
+            return res.status(201).json(data);
+
+
+        })
+    }
 
 
 

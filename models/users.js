@@ -222,8 +222,44 @@ db.query
         }
     }
 )
+}
 
 
+ 
+    //CONSULTA PARA LISTAR LOS DOMICILIARIO
+    User.findListarDomiciliario = (result) =>{
+
+            const sql = `   
+            SELECT 
+            CONVERT(U.id, char) AS id,
+            U.email,
+            U.name,
+            U.lastname,
+            U.phone,
+            U.image,
+            U.passwordd
+            FROM users AS U
+            INNER JOIN user_has_roles AS UHR
+            ON UHR.id_user=U.id
+            INNER JOIN roles AS R
+            ON R.id=UHR.id_rol
+            WHERE R.id=2`;
+
+             db.query
+            (
+                sql,
+                (err, data) => {
+            
+                    if (err) {
+                        console.log('Error:', err);
+                        result(err, null);
+                    }
+                    else{
+                        result(null, data);
+                    }
+                    
+                }
+            )
 
 }
 
