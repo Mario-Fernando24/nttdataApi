@@ -30,7 +30,8 @@ Order.findByStatus=(status,result)=>{
              'id', CONVERT(U.id, CHAR),
              'name', U.name,
              'lastname', U.lastname,
-             'image', U.image
+             'image', U.image,
+             'phone',U.phone
          
      ) AS cliente_json,
      
@@ -43,7 +44,7 @@ Order.findByStatus=(status,result)=>{
                  'image2', P.image2,
                  'image3', P.image3,
                  'price', P.price,
-                 'cantidad', OrdensProduct.cantidad
+                 'quantity', OrdensProduct.cantidad
              )
             ) AS produc
       

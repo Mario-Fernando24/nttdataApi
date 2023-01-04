@@ -7,8 +7,7 @@ module.exports ={
 
         const id_address_parametro = req.params.id_user;
     
-
-         Address.getAllAddress(id_address_parametro,(err, data)=>{
+        Address.getAllAddress(id_address_parametro,(err, data)=>{
              if(err){
                  return res.status(501).json({
                      success: false,
