@@ -115,6 +115,44 @@ db.query(
         }
     }
   )   
+ },
+
+ //Metodo para cambiar el estado a despachado de la orden por parte del restaurante
+ Order.updateToDespachado=(id_orden, id_domiciliario, result)=>{
+     
+    console.log('[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[');
+    console.log(  id_domiciliario, new Date(),
+        id_orden);
+        console.log('[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[');
+    const sql = `
+         UPDATE 
+          orders
+         SET     
+            id_domiciliario=?,
+            statu=?,
+            updated_at=?
+         WHERE 
+            id=?  
+        `;
+
+        db.query(
+            sql,
+            [
+              id_domiciliario,
+              "DESPACHADO",
+              new Date(),
+              id_orden
+            ],
+            (err, res) => {
+                if (err) {
+                    result(err, null);
+                }
+                else {
+                    result(null, id_orden);
+                }
+            }
+        )
+
  }
 
  

@@ -57,7 +57,7 @@ ordersRoutes(app);
 
 //********************************************** */
 
-server.listen(3000,'192.168.1.5' || 'localhost', function(){
+server.listen(3000,'192.168.1.6' || 'localhost', function(){
     console.log('http://localhost'+port+ ' iniciada...');
     
 }); 

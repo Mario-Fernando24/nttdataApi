@@ -8,11 +8,10 @@ module.exports ={
 
 
     findByStatus(req, res){
-        
-       
-        
+   
+    
         const status = req.params.status;
-
+       
         Order.findByStatus(status,(err, data)=>{
             if(err){
                 return res.status(501).json({
@@ -53,7 +52,7 @@ module.exports ={
                         }
                         
                         //recorro de la orden los producto que voy a guardar en order_has_products
-                        for(const product of orden.products){
+                        for(const product of orden.produc){
                             
                             await OrderHasProducts.create(id_orden,product.id,product.quantity,(err,id_data)=>{
 
@@ -81,6 +80,34 @@ module.exports ={
                     });
            
          },
+
+         updateToDespachado(req, res){
+            
+            const orden = req.body;
+
+             Order.updateToDespachado(orden.id,orden.id_domiciliario, async (err, id_orden)=>{
+                
+                if(err){
+                    return res.status(501).json({
+                        success: false,
+                        message: ' Hubo un error con despachar la orden',
+                        error: err
+                    });
+                }
+
+                     
+                return res.status(201).json({
+                    success: true,
+                    message: 'Orden actualizada a despachado',
+                    data: `${id_orden}` // id del nuevo usuario que se registro
+                });
+
+            })
+
+         }
+        
+       
+         
 
 
 }
