@@ -7,6 +7,41 @@ const storage = require('../utils/cloud_storage');
 module.exports ={
 
 
+
+
+    findByDeliveryIdStatus(req, res){
+   
+    
+        const status = req.params.status;
+        const id_domiciliario = req.params.id_domiciliario;
+
+   
+
+       
+        Order.ordersDomiciliarioIdStatus(id_domiciliario,status,(err, data)=>{
+            if(err){
+                return res.status(501).json({
+                    success: false,
+                    message: ' Hubo un error al momento de mostrar las ordenes del domiciliario',
+                    error: err
+                });
+            }
+
+            for(const d of data){
+                d.domiciliario_json = JSON.parse(d.domiciliario_json)
+                d.direccion_json = JSON.parse(d.direccion_json)
+                d.cliente_json = JSON.parse(d.cliente_json)
+                d.produc = JSON.parse(d.produc)
+
+                
+            }
+            return res.status(201).json(data);
+        });
+    
+    },
+
+
+
     findByStatus(req, res){
    
     
@@ -32,9 +67,6 @@ module.exports ={
 
         
             return res.status(201).json(data);
-
-            
-
         });
     
     },
