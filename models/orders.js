@@ -34,7 +34,18 @@ Order.findByStatus=(status,result)=>{
              'phone',U.phone
          
      ) AS cliente_json,
-     
+       
+       JSON_OBJECT(
+                'id', CONVERT(UDOMI.id, CHAR),
+                'name', UDOMI.name,
+                'lastname', UDOMI.lastname,
+                'image', UDOMI.image,
+                'phone',UDOMI.phone
+            
+        ) AS domiciliario_json,
+
+        
+
     JSON_ARRAYAGG(
             JSON_OBJECT(
                  'id', CONVERT(P.id, char),
@@ -54,6 +65,8 @@ Order.findByStatus=(status,result)=>{
             ON U.id = O.id_client    
             INNER JOIN address AS A 
             ON A.id = O.id_direccion    
+            LEFT JOIN users AS UDOMI
+            ON UDOMI.id = O.id_domiciliario  
             INNER JOIN orders_has_product AS OrdensProduct
             ON OrdensProduct.id_order=O.id
             INNER JOIN products  AS P
@@ -120,10 +133,6 @@ db.query(
  //Metodo para cambiar el estado a despachado de la orden por parte del restaurante
  Order.updateToDespachado=(id_orden, id_domiciliario, result)=>{
      
-    console.log('[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[');
-    console.log(  id_domiciliario, new Date(),
-        id_orden);
-        console.log('[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[');
     const sql = `
          UPDATE 
           orders

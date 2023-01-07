@@ -22,9 +22,12 @@ module.exports ={
             }
 
             for(const d of data){
+                d.domiciliario_json = JSON.parse(d.domiciliario_json)
                 d.direccion_json = JSON.parse(d.direccion_json)
                 d.cliente_json = JSON.parse(d.cliente_json)
                 d.produc = JSON.parse(d.produc)
+
+                
             }
 
         
