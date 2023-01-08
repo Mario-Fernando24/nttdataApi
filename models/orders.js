@@ -261,7 +261,39 @@ db.query(
             }
         )
 
- }
+ },
+
+ //METODO PARA INICIAR LA ENTREGA DEL PEDIDO POR PARTE DEL DOMICILIARIO
+ Order.updateToEntregado=(id_orden, result)=>{
+     
+    const sql = `
+         UPDATE 
+          orders
+         SET     
+            statu=?,
+            updated_at=?
+         WHERE 
+            id=?  
+        `;
+
+        db.query(
+            sql,
+            [
+              "EN CAMINO",
+              new Date(),
+              id_orden
+            ],
+            (err, res) => {
+                if (err) {
+                    result(err, null);
+                }
+                else {
+                    result(null, id_orden);
+                }
+            }
+        )
+
+ },
 
  
 module.exports = Order;

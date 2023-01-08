@@ -139,7 +139,34 @@ module.exports ={
 
             })
 
+         },
+
+         updateToIniciandoEntrega(req, res){
+            
+            const orden = req.body;
+
+             Order.updateToEntregado(orden.id, async (err, id_orden)=>{
+                
+                if(err){
+                    return res.status(501).json({
+                        success: false,
+                        message: ' Hubo un error con despachar la orden',
+                        error: err
+                    });
+                }
+
+                     
+                return res.status(201).json({
+                    success: true,
+                    message: 'Iniciando entrega...',
+                    data: `${id_orden}` // id del nuevo usuario que se registro
+                });
+
+            })
+
          }
+
+         
         
        
          
