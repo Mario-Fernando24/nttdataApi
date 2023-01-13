@@ -8,6 +8,40 @@ const asyncForeach = require('../utils/async_foreach');
 module.exports ={
 
   
+    
+
+    //buscar por categoria y por nombre
+    findByProductSearch(req, res){
+
+        const id_category_parametro=req.params.id_category;
+        const search__parametro=req.params.name;
+        console.log('OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO');
+        console.log(id_category_parametro);
+        console.log(search__parametro);
+
+        console.log('OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO');
+
+        Product.findByProductSearch(id_category_parametro,search__parametro,(err, data)=>{
+            if(err){
+                return res.status(501).json({
+                    success: false,
+                    message: 'Hubo un error interno, por favor intentar mas tarde',
+                    error: err
+                });
+            } 
+    
+            if(data!=""){
+                return res.status(201).json(data);
+            }else{
+                return res.status(400).json({
+                    success: false,
+                    message: 'No se pudo filtrar',
+                });
+            }
+        });
+    },
+
+
 findByProducts(req, res){
 
     //parametro de la categoria que nos envian por parametro para mostrar todos los productos relacionados a esa categoria

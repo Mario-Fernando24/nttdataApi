@@ -5,6 +5,52 @@ const Product = {};
 
 
 
+                   Product.findByProductSearch = (id_category,search,result)=>{
+  
+                    const sql =`SELECT 
+                                    CONVERT(P.id, char) AS id,
+                                    P.name,
+                                    P.description,
+                                    P.price,
+                                    P.image1,
+                                    P.image2,
+                                    P.image3,
+                                    CONVERT(P.id_category, char) AS id_category,
+                                    P.created_at,
+                                    P.update_at
+         
+                                    FROM 
+                                        products AS P
+                                    WHERE 
+                                        P.id_category=? AND LOWER(P.name) LIKE ?
+                                    ORDER BY 
+                                        P.name`;
+                
+                            db.query( 
+                                sql,[
+                                    id_category,
+                                    `%${search.toLowerCase()}%`
+                                ], 
+                                (err,data) => {
+                                    if (err) {
+                                        console.log('Error:', err);
+                                        result(err, null);
+                                    }
+                                    else {
+                                        
+                                        console.log("================================");
+                                        console.log(' dataaaaa:', data);
+                                        console.log("================================");
+                
+                                        result(null, data);
+                                    }
+                                }
+                            )
+                
+                }, 
+
+
+
 //RETORNA TODAS LAS PRODUCTO
 Product.findByProducts = (id_category,result)=>{
   
