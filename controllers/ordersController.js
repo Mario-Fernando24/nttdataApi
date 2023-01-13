@@ -41,6 +41,39 @@ module.exports ={
     },
 
 
+  //CONTROLLER PARA LISTAR LAS ORDENES DE LOS CLIENTES
+    findByClientIdStatus(req, res){
+   
+    
+        const status = req.params.status;
+        const id_client = req.params.id_client;
+
+ 
+       
+        Order.findByClientIdStatu(id_client,status,(err, data)=>{
+            if(err){
+                return res.status(501).json({
+                    success: false,
+                    message: ' Hubo un error al momento de mostrar las ordenes del domiciliario',
+                    error: err
+                });
+            }
+
+            for(const d of data){
+                d.domiciliario_json = JSON.parse(d.domiciliario_json)
+                d.direccion_json = JSON.parse(d.direccion_json)
+                d.cliente_json = JSON.parse(d.cliente_json)
+                d.produc = JSON.parse(d.produc)
+
+                
+            }
+            return res.status(201).json(data);
+        });
+    
+    },
+
+
+
 
     findByStatus(req, res){
    
@@ -164,7 +197,35 @@ module.exports ={
 
             })
 
+         },
+
+         updatePosicionDomiciliarioLatLng(req, res){
+            
+            const orden = req.body;
+          
+             Order.updatePosicionDomiciliarioLatLng(orden.id,orden.lat,orden.lng,  async (err, id_orden)=>{
+                
+                if(err){
+                    return res.status(501).json({
+                        success: false,
+                        message: ' Hubo un error al actualizar la posicion del domiciliario',
+                        error: err
+                    });
+                }
+
+                     
+                return res.status(201).json({
+                    success: true,
+                    message: 'actualizo correctamente...',
+                    data: `${id_orden}` // id del nuevo usuario que se registro
+                });
+
+            })
+
          }
+
+
+         
 
          
         

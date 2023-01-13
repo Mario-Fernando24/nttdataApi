@@ -91,18 +91,14 @@ Order.findByStatus=(status,result)=>{
             }
           )   
 
-}
+},
 
 
 
-
+//listar las ordenes en el rol domiciliario
 Order.ordersDomiciliarioIdStatus=(id_domiciliario, status, result)=>{
 
 
-     console.log(')))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))');
-     console.log(id_domiciliario);
-     console.log(status);
-     console.log(')))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))');;
     const sql = `SELECT 
     CONVERT(O.id, CHAR) AS id,
     CONVERT(O.id_client, CHAR) AS id_client,
@@ -188,7 +184,109 @@ Order.ordersDomiciliarioIdStatus=(id_domiciliario, status, result)=>{
             }
           )   
 
-}
+},
+
+
+
+            //listar las ordenes en el rol client
+            Order.findByClientIdStatu=(id_client, status, result)=>{
+
+
+                console.log('=***************************************==');
+                console.log(id_client);
+                console.log(status);
+                console.log('=***************************************==');
+
+                
+                const sql = `SELECT 
+                CONVERT(O.id, CHAR) AS id,
+                CONVERT(O.id_client, CHAR) AS id_client,
+                CONVERT(O.id_direccion, CHAR) AS id_direccion,
+                CONVERT(O.id_domiciliario, CHAR) AS id_domiciliario,
+                  O.statu,
+                  O.timetamp,
+                  A.direccion,
+                  O.lat,
+                  O.lng,
+                
+                JSON_OBJECT(
+                         'id', CONVERT(A.id, CHAR),
+                         'direccion', A.direccion,
+                         'nombreBarrio', A.nombre_barrio,
+                         'lat', A.lat,
+                         'lng', A.lng
+                     
+                 ) AS direccion_json,
+                 
+                JSON_OBJECT(
+                         'id', CONVERT(U.id, CHAR),
+                         'name', U.name,
+                         'lastname', U.lastname,
+                         'image', U.image,
+                         'phone',U.phone
+                     
+                 ) AS cliente_json,
+                   
+                   JSON_OBJECT(
+                            'id', CONVERT(UDOMI.id, CHAR),
+                            'name', UDOMI.name,
+                            'lastname', UDOMI.lastname,
+                            'image', UDOMI.image,
+                            'phone',UDOMI.phone
+                        
+                    ) AS domiciliario_json,
+            
+                    
+            
+                JSON_ARRAYAGG(
+                        JSON_OBJECT(
+                             'id', CONVERT(P.id, char),
+                             'name', P.name,
+                             'description', P.description,
+                             'image1', P.image1,
+                             'image2', P.image2,
+                             'image3', P.image3,
+                             'price', P.price,
+                             'quantity', OrdensProduct.cantidad
+                         )
+                        ) AS produc
+                  
+                    FROM orders AS O
+            
+                        INNER JOIN users AS U
+                        ON U.id = O.id_client    
+                        INNER JOIN address AS A 
+                        ON A.id = O.id_direccion    
+                        LEFT JOIN users AS UDOMI
+                        ON UDOMI.id = O.id_domiciliario  
+                        INNER JOIN orders_has_product AS OrdensProduct
+                        ON OrdensProduct.id_order=O.id
+                        INNER JOIN products  AS P
+                        ON P.id = OrdensProduct.id_product    
+                        WHERE  O.id_client=? AND  O.statu = ?
+                        GROUP BY O.id
+                     `;
+            
+                     db.query(
+                        sql,
+                       [ id_client,
+                        status],
+                        (err, data) => {
+                            if (err) {
+                                console.log('Error:', err);
+                                result(err, null);
+                            }
+                            else {
+                                console.log('dataaaaaa', data);
+                                result(null, data);
+                            }
+                        }
+                      )   
+            
+            },
+            
+
+
 
 
 
@@ -280,6 +378,42 @@ db.query(
             sql,
             [
               "EN CAMINO",
+              new Date(),
+              id_orden
+            ],
+            (err, res) => {
+                if (err) {
+                    result(err, null);
+                }
+                else {
+                    result(null, id_orden);
+                }
+            }
+        )
+
+ },
+
+
+  //METODO PARA IR ACTUALIZANDO LA POSICION DEL DOMICILIARIO
+  Order.updatePosicionDomiciliarioLatLng=(id_orden,lat, lng, result)=>{
+     
+    
+    const sql = `
+         UPDATE 
+          orders
+         SET     
+         lat=?,
+         lng=?,
+         updated_at=?
+         WHERE 
+            id=?  
+        `;
+
+        db.query(
+            sql,
+            [
+              lat,
+              lng,
               new Date(),
               id_orden
             ],
