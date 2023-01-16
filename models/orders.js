@@ -388,6 +388,38 @@ db.query(
  },
 
 
+ Order.updateToFinalizarEntregaDelivery=(id_orden, result)=>{
+     
+    const sql = `
+         UPDATE 
+          orders
+         SET     
+            statu=?,
+            updated_at=?
+         WHERE 
+            id=?  
+        `;
+
+        db.query(
+            sql,
+            [
+              "ENTREGADO",
+              new Date(),
+              id_orden
+            ],
+            (err, res) => {
+                if (err) {
+                    result(err, null);
+                }
+                else {
+                    result(null, id_orden);
+                }
+            }
+        )
+
+ },
+
+
   //METODO PARA IR ACTUALIZANDO LA POSICION DEL DOMICILIARIO
   Order.updatePosicionDomiciliarioLatLng=(id_orden,lat, lng, result)=>{
      

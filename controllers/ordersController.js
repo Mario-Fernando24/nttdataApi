@@ -222,7 +222,33 @@ module.exports ={
 
             })
 
-         }
+         },
+
+
+         updateToFinalizarEntregaDelivery(req, res){
+            
+            const orden = req.body;
+
+             Order.updateToFinalizarEntregaDelivery(orden.id, async (err, id_orden)=>{
+                
+                if(err){
+                    return res.status(501).json({
+                        success: false,
+                        message: ' Hubo un error con entregar la orden',
+                        error: err
+                    });
+                }
+
+                     
+                return res.status(201).json({
+                    success: true,
+                    message: 'finalizando la entrega...',
+                    data: `${id_orden}` // id del nuevo usuario que se registro
+                });
+
+            })
+
+         },
 
 
          
