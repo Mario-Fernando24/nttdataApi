@@ -34,7 +34,7 @@ User.findById = (id,result)=>{
                 result(err, null);
             }
             else {
-                console.log('Id del nuevo usuario:', userss);
+                // console.log('Id del nuevo usuario:', userss);
                 result(null, userss);
             }
         }

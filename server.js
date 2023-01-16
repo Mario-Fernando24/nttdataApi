@@ -9,6 +9,11 @@ const server = http.createServer(app);
 const logger = require('morgan');
 const cors = require('cors');
 const passport = require('passport');
+
+//traemos el paquete socket y lo inicializamos con el servidor
+const io = require('socket.io')(server);
+
+
 //Aqui se va a importar las rutas
 const usersrRoutes = require('./routes/userRoutes');
 const categoriesRoutes = require('./routes/categoriesRoutes');
@@ -17,6 +22,9 @@ const addressRoutes = require('./routes/addressRoutes');
 const ordersRoutes = require('./routes/ordersRoutes');
 
 //**************************************** */
+
+//importamos los socket
+const ordersSocket = require('./sockets/ordersSockets');
 
 const multer = require('multer');
 
@@ -40,9 +48,15 @@ require('./config/password')(passport);
 app.disable('x-powered-by');
 
 app.set('port',port);
-const hostname = 'localhost';
 
-//imagenes
+ 
+//llamados a los socket
+ordersSocket(io);
+
+// const hostname = 'localhost';
+
+//imagenes 
+    //"socket.io": "^2.4.1"
 const upload = multer({
   storage:multer.memoryStorage()
 });
@@ -73,3 +87,8 @@ app.use((err, req, res, next)=>{
 
     res.status(err.status || 500).send(err.stack);
 });
+
+module.exports = {
+  app: app,
+  server: server
+}

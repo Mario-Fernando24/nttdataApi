@@ -81,11 +81,11 @@ Order.findByStatus=(status,result)=>{
             status,
             (err, data) => {
                 if (err) {
-                    console.log('Error:', err);
+                    // console.log('Error:', err);
                     result(err, null);
                 }
                 else {
-                    console.log('dataaaaaa', data);
+                    // console.log('dataaaaaa', data);
                     result(null, data);
                 }
             }
@@ -174,11 +174,11 @@ Order.ordersDomiciliarioIdStatus=(id_domiciliario, status, result)=>{
             status],
             (err, data) => {
                 if (err) {
-                    console.log('Error:', err);
+                    // console.log('Error:', err);
                     result(err, null);
                 }
                 else {
-                    console.log('dataaaaaa', data);
+                    // console.log('dataaaaaa', data);
                     result(null, data);
                 }
             }
@@ -190,12 +190,6 @@ Order.ordersDomiciliarioIdStatus=(id_domiciliario, status, result)=>{
 
             //listar las ordenes en el rol client
             Order.findByClientIdStatu=(id_client, status, result)=>{
-
-
-                console.log('=***************************************==');
-                console.log(id_client);
-                console.log(status);
-                console.log('=***************************************==');
 
                 
                 const sql = `SELECT 
@@ -273,11 +267,11 @@ Order.ordersDomiciliarioIdStatus=(id_domiciliario, status, result)=>{
                         status],
                         (err, data) => {
                             if (err) {
-                                console.log('Error:', err);
+                                // console.log('Error:', err);
                                 result(err, null);
                             }
                             else {
-                                console.log('dataaaaaa', data);
+                                // console.log('dataaaaaa', data);
                                 result(null, data);
                             }
                         }
@@ -320,7 +314,7 @@ db.query(
             result(err, null);
         }
         else {
-            console.log('Id de la nueva orden del pedido=> ', res.insertId);
+            // console.log('Id de la nueva orden del pedido=> ', res.insertId);
             result(null, res.insertId);
         }
     }
