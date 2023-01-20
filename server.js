@@ -14,12 +14,23 @@ const passport = require('passport');
 const io = require('socket.io')(server);
 
 
+  const mercadopago = require('mercadopago');
+   
+  mercadopago.configure({
+        sandbox: true,
+        access_token: 'TEST-3169176000815274-011902-493c596b84c9c44313b2af322d409570-1133725316'
+    });
+
+
+
+
 //Aqui se va a importar las rutas
 const usersrRoutes = require('./routes/userRoutes');
 const categoriesRoutes = require('./routes/categoriesRoutes');
 const productsRoutes = require('./routes/productsRoutes');
 const addressRoutes = require('./routes/addressRoutes');
 const ordersRoutes = require('./routes/ordersRoutes');
+const mercadoPagoRoutes = require('./routes/mercadoPagoRoutes');
 
 //**************************************** */
 
@@ -68,6 +79,7 @@ categoriesRoutes(app);
 productsRoutes(app,upload);
 addressRoutes(app);
 ordersRoutes(app);
+mercadoPagoRoutes(app);
 
 //********************************************** */
 
@@ -78,13 +90,11 @@ server.listen(3000,'192.168.1.3' || 'localhost', function(){
 //192.168.61.251:3000
 //ruta raiz
 app.get('/',(req, res) => {
-  
    res.send('Ruta raiz del backend');
 });
 
 //MANEJO DE ERRORES
 app.use((err, req, res, next)=>{
-
     res.status(err.status || 500).send(err.stack);
 });
 
