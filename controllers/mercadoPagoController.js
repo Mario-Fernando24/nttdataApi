@@ -21,7 +21,7 @@ const OrderHasProducts = require('../models/orders_has_products');
             //token que nos envia el client
             token: payments.token,
             //
-            issuer_id: payments.issuer.id,
+            issuer_id: payments.issuer_id,
             payment_method_id: payments.payment_method_id,
             //cantidad a pagar
             transaction_amount: payments.transaction_amount,
@@ -51,9 +51,9 @@ const OrderHasProducts = require('../models/orders_has_products');
             });
         });
 
-        if(data){
+        if (data.body !== null && data.body !== undefined) {
             console.log("Los datos del cliente son correcto", data);
-            const orden= payment.order;
+            const orden= payments.order;
             
             Order.create(orden, async (err, id_orden)=>{
 
@@ -71,6 +71,8 @@ const OrderHasProducts = require('../models/orders_has_products');
                     await OrderHasProducts.create(id_orden,product.id,product.quantity,(err,id_data)=>{
 
                         if(err){
+                            console.log('mario fernando muñoz 9');
+
                             return res.status(501).json({
                                 success: false,
                                 message: ' Hubo un error con la creación de los productos en la orden',
@@ -79,15 +81,18 @@ const OrderHasProducts = require('../models/orders_has_products');
                         }
                     });
                 }
+                console.log('mario fernando muñoz 1');
   
                 return res.status(201).json({
                     success: true,
                     message: 'La orden se ha creado correctamente',
-                    data: `${id_orden}` // id del nuevo usuario que se registro
+                    data: data.response
                 });
             });
             
         }else{
+            console.log('mario fernando muñoz 2');
+
             return res.status(501).json({
                 success: false,
                 message: 'Error con algun dato de la petición',

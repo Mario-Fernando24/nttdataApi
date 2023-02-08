@@ -11,7 +11,7 @@ Category.getAllCategory = (result)=>{
     const sql =`SELECT 
                     CONVERT(C.id, char) AS id,
                     C.name,
-                    C.description
+                    C.description AS descripcion
                 FROM 
                     categories AS C 
                 ORDER BY 
@@ -37,7 +37,8 @@ Category.getAllCategory = (result)=>{
 Category.findByName = (category,result)=>{
     
     const sql =`SELECT 
-                C.name
+                C.name,
+                C.description AS descripcion
                 FROM categories AS C 
                 WHERE C.name=?`;
 
@@ -86,6 +87,43 @@ Category.create = (category, result) =>{
     )
 
 }
+
+
+Category.updateCategory=(category, result)=>{
+     
+    const sql = `
+         UPDATE 
+          categories
+         SET     
+            name=?,
+            description=?,
+            update_at=?
+         WHERE 
+            id=?  
+        `;
+
+        db.query(
+            sql,
+            [
+              category.name,
+              category.descripcion,
+              new Date(),
+              category.id
+            ],
+            (err, res) => {
+                if (err) {
+                    result(err, null);
+                }
+                else {
+                    result(null, category.id);
+                }
+            }
+        )
+
+ },
+
+
+
 
 
 module.exports = Category;

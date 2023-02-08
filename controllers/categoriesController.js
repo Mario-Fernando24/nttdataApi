@@ -59,8 +59,35 @@ module.exports ={
                 });
             } 
 
-
             return res.status(201).json(data);
         });
-    }
+    },
+
+
+    updateCate(req, res){
+            
+        const catego = req.body;
+
+     
+
+        Category.updateCategory(catego, async (err, id)=>{
+            
+            if(err){
+                return res.status(501).json({
+                    success: false,
+                    message: ' Hubo un error al actualizar la categoria',
+                    error: err
+                });
+            }
+
+                 
+            return res.status(201).json({
+                success: true,
+                message: 'categoria actualizada correctamente',
+                data: `${id}` // id del nuevo usuario que se registro
+            });
+
+        })
+
+     },
 }
