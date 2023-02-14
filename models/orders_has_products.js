@@ -25,6 +25,7 @@ db.query(
      quantity,
      new Date(),
      new Date()],
+
     (err, res) => {
         if (err) {
             console.log('Error:', err);

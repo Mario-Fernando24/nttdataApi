@@ -35,7 +35,7 @@ const OrderHasProducts = require('../models/orders_has_products');
               //solo se coloca esto es colombia, mexico y otros paises se omiten tipo de documento y numero de documento
               identification: {
                 type: payments.payer.identification.type,
-                number: payments.payer.identification.number,
+                number: payments.payer.identification.number
               },
             },
           }
@@ -90,15 +90,53 @@ const OrderHasProducts = require('../models/orders_has_products');
                 });
             });
             
-        }else{
-            console.log('mario fernando muñoz 2');
+        }
 
-            return res.status(501).json({
-                success: false,
-                message: 'Error con algun dato de la petición',
-            }); 
+    },
+
+
+    async createPaymentsCash(req, res){
+
+        let paymentsCash = req.body;
+
+        const orden= paymentsCash.order;
+       
+            Order.create(orden, async (err, id_orden)=>{
+
+                if(err){
+                    return res.status(501).json({
+                        success: false,
+                        message: ' Hubo un error al momento de crear la orden',
+                        error: err
+                    }); 
+                }
+                
+                //recorro de la orden los producto que voy a guardar en order_has_products
+                for(const product of orden.produc){
+                    
+                    await OrderHasProducts.create(id_orden,product.id,product.quantity,(err,id_data)=>{
+
+                        if(err){
+                            console.log('mario fernando muñoz 9');
+
+                            return res.status(501).json({
+                                success: false,
+                                message: ' Hubo un error con la creación de los productos en la orden',
+                                error: err
+                            });
+                        }
+                    });
+                }
+                console.log('mario fernando muñoz 1');
+  
+                return res.status(201).json({
+                    success: true,
+                    message: 'La orden se ha creado correctamente',
+                });
+            });
+            
         }
 
     }
 
-  }
+  
