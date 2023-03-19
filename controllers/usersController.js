@@ -278,7 +278,37 @@ async updateProfileUsersSinImagenes(req, res) {
 
 
         })
-    }
+    },
+
+
+
+
+    async updateNotificationToken(req, res) {
+
+      
+          const id_user = req.body.id; 
+          const token = req.body.token; 
+
+       
+          User.updateNotificationToken(id_user,token, (validate, idUsers) => {
+          
+              if (!validate) {
+                  return res.status(501).json({
+                      success: false,
+                      message: 'Hubo un error interno, por favor intentelo mas tarde',
+                     // error: err
+                  });
+                 }
+      
+                   return res.status(201).json({
+                      success: true,
+                      message: 'El token se actualizo correctamente',
+                      data: idUsers
+                  });  
+              }
+          )},
+      
+      
 
 
 

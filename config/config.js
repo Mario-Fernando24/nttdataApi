@@ -5,7 +5,7 @@ const db = mysql.createPool({
     host:            'localhost',
     user:            'root',
     password:        '',
-    database:        'udemy_delivery',
+    database:        'delivered',
     debug:           false
 });
  

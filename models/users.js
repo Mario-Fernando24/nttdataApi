@@ -12,6 +12,7 @@ User.findById = (id,result)=>{
     U.phone,
     U.image,
     U.passwordd,
+    U.notification_token,
     JSON_ARRAYAGG(
                 JSON_OBJECT(
                     'id', CONVERT(R.id, char),
@@ -29,6 +30,7 @@ User.findById = (id,result)=>{
 
     db.query( sql,[id],
         (err, userss) => {
+     
             if (err) {
                 console.log('Error:', err);
                 result(err, null);
@@ -262,5 +264,51 @@ db.query
             )
 
 }
+
+
+
+
+
+User.updateNotificationToken=(id_users,token, result) =>{
+    
+    
+ 
+    const sql = `
+        UPDATE 
+       users
+        SET
+        notification_token= ?,
+        updated_at= ?
+       WHERE
+        id =?
+        `;
+
+
+db.query
+(
+    sql,
+    [
+        token,
+        new Date(),
+        id_users
+    ],
+    (err, res) => {
+   
+        if (err) {
+            console.log('Error:', err);
+            result(err, false);
+        }
+        if(res["affectedRows"]>0){
+            result( true,id_users);
+        }
+        else {
+            //si la respuesta es valida que me envie un true
+            result(err, false);
+        }
+    }
+)
+}
+
+
 
 module.exports = User;

@@ -16,7 +16,8 @@ module.exports = (app, upload) => {
     app.put('/api/users/updateWithImage',passport.authenticate('jwt',{session:false}) ,upload.array('image',1) ,usersController.updateProfileUsersWhithImage);
     //listar los domiciliario
     app.get('/api/users/findListarDomiciliario',passport.authenticate('jwt',{session:false}) ,upload.array('image',1) ,usersController.findListarDomiciliario);
-
+    //ruta para las notificaciones
+    app.put('/api/users/updateNotification',passport.authenticate('jwt',{session:false}) ,usersController.updateNotificationToken);
 
 }
 

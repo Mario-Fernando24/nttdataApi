@@ -21,7 +21,7 @@ const io = require('socket.io')(server);
         //prueba
          access_token: 'TEST-3169176000815274-011902-493c596b84c9c44313b2af322d409570-1133725316'
         //produccion
-       //access_token: 'APP_USR-3169176000815274-011902-c5a1554b6c735dbabcce47685b2d5b05-1133725316' 
+      // access_token: 'APP_USR-3169176000815274-011902-c5a1554b6c735dbabcce47685b2d5b05-1133725316' 
     });
 
 
@@ -86,7 +86,7 @@ mercadoPagoRoutes(app);
 
 //********************************************** */
 
-server.listen(3000,'192.168.1.10' || 'localhost', function(){
+server.listen(3000,'192.168.1.8' || 'localhost', function(){
     console.log('http://localhost'+port+ ' iniciada...');
     
 }); 

@@ -2,6 +2,8 @@ const Order = require('../models/orders');
 const OrderHasProducts = require('../models/orders_has_products');
 const jwt = require('jsonwebtoken');
 const storage = require('../utils/cloud_storage');
+const User = require('../models/users')
+const PushNotificationController = require('../controllers/pushNotificationController');
 
 
 module.exports ={
@@ -162,7 +164,26 @@ module.exports ={
                         error: err
                     });
                 }
+               console.log('LISTAS ENLAZADAS DOBLES');
+        
+                //apenas se actualice el estado a despachado obtengo el token del usuario para saber a quien se la voy a enviar
+                User.findById(orden.id_domiciliario,(err, userss)=>{
 
+                    console.log('======NOTIFICATION TOKEN======');
+                    console.log( userss[0]["notification_token"]);
+                    console.log('======NOTIFICATION TOKEN======');
+
+
+                    if (userss !== undefined && userss !== null) {
+                        
+                        console.log('NOTIFICATION TOKEN', userss.notification_token);
+                        PushNotificationController.sendNotification(userss[0]["notification_token"], {
+                            title: 'PEDIDO ASIGNADO (NEGRY)',
+                            body: 'Te han asignado un pedido para entregar',
+                            id_notification: '1'
+                        });
+                    }
+                });
                      
                 return res.status(201).json({
                     success: true,
