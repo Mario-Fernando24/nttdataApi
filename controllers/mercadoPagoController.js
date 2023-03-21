@@ -1,6 +1,9 @@
 const mercadoPago = require('mercadopago');
 const Order = require('../models/orders');
 const OrderHasProducts = require('../models/orders_has_products');
+const User = require('../models/users')
+const PushNotificationController = require('../controllers/pushNotificationController');
+
 
   mercadoPago.configure({
     sandbox: true,
@@ -81,6 +84,40 @@ const OrderHasProducts = require('../models/orders_has_products');
                         }
                     });
                 }
+
+
+                User.findNotificationMultipleDeviceAdmin((err, userss)=>{
+
+                    console.log('======NOTIFICATION TOKEN======');
+                    console.log( userss[0]);
+                    console.log('======NOTIFICATION TOKEN======');
+
+            
+                    if (userss[0] !== undefined && userss[0] !== null) {
+
+                        if(userss.length>0){
+
+                            let tokens=[];
+
+                            userss.array.forEach(element => {
+                                tokens.push(element.notification_token)
+                            });
+
+                            console.log(tokens);
+
+                            PushNotificationController.sendNotificationToMultipleDevice(tokens, {
+                                title: 'COMPRA REALIZADA',
+                                body: 'Un cliente ha realizado una compra',
+                                id_notification: '2'
+                            });
+
+                        }
+                        
+                       
+                    }
+                });
+
+
                 console.log('mario fernando muñoz 1');
   
                 return res.status(201).json({
@@ -127,7 +164,37 @@ const OrderHasProducts = require('../models/orders_has_products');
                         }
                     });
                 }
-                console.log('mario fernando muñoz 1');
+                
+                User.findNotificationMultipleDeviceAdmin((err, userss)=>{
+
+                    console.log('======NOTIFICATION TOKEN======');
+                    console.log( userss[0]);
+                    console.log('======NOTIFICATION TOKEN======');
+
+            
+                    if (userss[0] !== undefined && userss[0] !== null) {
+
+                        if(userss.length>0){
+
+                            let tokens=[];
+
+                            userss.forEach(element => {
+                                tokens.push(element.notification_token)
+                            });
+
+                            console.log(tokens);
+
+                            PushNotificationController.sendNotificationToMultipleDevice(tokens, {
+                                title: 'COMPRA REALIZADA',
+                                body: 'Un cliente ha realizado una compra',
+                                id_notification: '2'
+                            });
+
+                        }
+                        
+                       
+                    }
+                });
   
                 return res.status(201).json({
                     success: true,

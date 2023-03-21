@@ -144,9 +144,6 @@ module.exports ={
                             message: 'La orden se ha creado correctamente',
                             data: `${id_orden}` // id del nuevo usuario que se registro
                         });
-
-
-                    
                     });
            
          },
@@ -154,7 +151,6 @@ module.exports ={
          updateToDespachado(req, res){
             
             const orden = req.body;
-
              Order.updateToDespachado(orden.id,orden.id_domiciliario, async (err, id_orden)=>{
                 
                 if(err){
@@ -170,13 +166,12 @@ module.exports ={
                 User.findById(orden.id_domiciliario,(err, userss)=>{
 
                     console.log('======NOTIFICATION TOKEN======');
-                    console.log( userss[0]["notification_token"]);
+                    console.log( userss[0]);
                     console.log('======NOTIFICATION TOKEN======');
 
 
-                    if (userss !== undefined && userss !== null) {
+                    if (userss[0] !== undefined && userss[0] !== null) {
                         
-                        console.log('NOTIFICATION TOKEN', userss.notification_token);
                         PushNotificationController.sendNotification(userss[0]["notification_token"], {
                             title: 'PEDIDO ASIGNADO (NEGRY)',
                             body: 'Te han asignado un pedido para entregar',

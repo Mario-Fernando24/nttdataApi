@@ -4,6 +4,38 @@ const db = require('../config/config');
 const Product = {};
 
 
+//RETORNA TODAS LOS PRODUCTOS
+Product.getAllProduct = (result)=>{
+  
+         const sql =`SELECT 
+                        p.id, 
+                        p.name,
+                        p.description,
+                        p.price,
+                        p.image1,
+                        p.image2,
+                        p.image3, 
+                        p.id_category
+                    FROM products AS p`;
+
+            db.query( 
+                sql,
+                (err,data) => {
+                    if (err) {
+                        console.log('Error:', err);
+                        result(err, null);
+                    }
+                    else {
+                        console.log(' producto:', data);
+                        result(null, data);
+                    }
+                }
+            )
+
+         } 
+
+
+
 
                    Product.findByProductSearch = (id_category,search,result)=>{
   

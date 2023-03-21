@@ -7,6 +7,22 @@ const asyncForeach = require('../utils/async_foreach');
 //exportar un objeto compelto
 module.exports ={
 
+
+    getAllProducts(req, res){
+       
+        Product.getAllProduct((err, data)=>{
+            if(err){
+                return res.status(501).json({
+                    success: false,
+                    message: 'Hubo un error interno, por favor intentar mas tarde',
+                    error: err
+                });
+            } 
+
+            return res.status(201).json(data);
+        });
+    },
+
   
     
 
@@ -15,11 +31,7 @@ module.exports ={
 
         const id_category_parametro=req.params.id_category;
         const search__parametro=req.params.name;
-        console.log('OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO');
-        console.log(id_category_parametro);
-        console.log(search__parametro);
-
-        console.log('OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO');
+      
 
         Product.findByProductSearch(id_category_parametro,search__parametro,(err, data)=>{
             if(err){
