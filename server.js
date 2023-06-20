@@ -15,12 +15,10 @@ const usersrRoutes = require('./routes/userRoutes');
 const categoriesRoutes = require('./routes/categoriesRoutes');
 const productsRoutes = require('./routes/productsRoutes');
 
-//**************************************** */
 const multer = require('multer');
 
 const port = process.env.port || 3000;
 
-//debuger los posibles errores
 app.use(logger('dev'));
 //parsear la respuesta que traemos en formato json
 app.use(express.json());
@@ -39,35 +37,25 @@ app.disable('x-powered-by');
 app.set('port', port);
 
 
-
-
-// const hostname = 'localhost';
-
-//imagenes 
-//"socket.io": "^2.4.1"
 const upload = multer({
   storage: multer.memoryStorage()
 });
 
 
-//Aqui se va a importar las rutas le pasamos como parametro la aplicacion
 usersrRoutes(app, upload);
 categoriesRoutes(app);
 productsRoutes(app, upload);
 
 
-//********************************************** */
 server.listen(3000, '192.168.1.10' || 'localhost', function () {
   console.log('http://localhost' + port + ' iniciada...');
 
 });
-//192.168.61.251:3000
-//ruta raiz
+
 app.get('/', (req, res) => {
   res.send('Ruta raiz del backend');
 });
 
-//MANEJO DE ERRORES
 app.use((err, req, res, next) => {
   res.status(err.status || 500).send(err.stack);
 });
